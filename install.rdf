@@ -1,0 +1,25 @@
+<?xml version="1.0"?><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+  <Description about="urn:mozilla:install-manifest">
+    <em:id>firerecord@qcc.mass.edu</em:id>
+    <em:version>0.0.2</em:version>
+
+    <!-- Firefox -->
+    <em:targetApplication>
+      <Description>
+        <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+        <em:minVersion>1.5</em:minVersion>
+        <em:maxVersion>18.*</em:maxVersion>
+      </Description>
+    </em:targetApplication>
+
+    <!-- Extension -->
+    <em:name>Fire Record</em:name>
+    <em:description>Firebug Record Extension</em:description>
+    <em:creator>Csc-207 Quinsigamond Community College </em:creator>
+    <em:homepageURL>http://www.qcc.edu</em:homepageURL>
+  </Description>
+</RDF>
+
+

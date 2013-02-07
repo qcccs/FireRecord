@@ -1,0 +1,3 @@
+content firerecord chrome/content/
+skin    firerecord classic/1.0   chrome/skin/classic/
+overlay chrome://firebug/content/firebugOverlay.xul         chrome://firerecord/content/firerecord.xul
