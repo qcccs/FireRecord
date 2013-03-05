@@ -1,5 +1,29 @@
 <?xml version="1.0"?>
 
 <overlay xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-    <script src="chrome://firerecord/content/firerecord.js" type="application/x-javascript"/>
+<script src="chrome://firerecord/content/firerecord.js" type="application/x-javascript"/>
+
+
+    <commandset id="mainCommandSet">
+        <command id="cmd_activablePanelAction" oncommand="Firebug.FireRecordModule.onMyButton(FirebugContext)"/>
+    </commandset>
+
+    <toolbar id="fbToolbar" align="center">
+        <hbox id="fbToolbarInner" insertbefore="fbDetachButton" flex="1" align="center">
+            <hbox id="panelButtons" insertafter="fbNetButtons">
+                <toolbarbutton id="activablePanelButton"
+                   
+                    command="cmd_activablePanelAction"
+                    image ="http://www.veryicon.com/icon/png/System/Developpers/Record%20Button.png"/>
+                <toolbarbutton id="activablePanelButton2"
+                   
+                    command="cmd_activablePanelAction"
+                    image ="http://img404.imageshack.us/img404/8438/playva.png" />
+                <toolbarbutton id="activablePanelButton3"
+                   
+                    command="cmd_activablePanelAction"
+                    image = "http://img201.imageshack.us/img201/6639/editksz.png"/>
+            </hbox>
+        </hbox>
+    </toolbar>
 </overlay>
