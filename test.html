@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <title>What is this I don't even.</title>
+    </head>
+    <body>
+        <h1 id="poke">Sup?</h1>
+        <a href="http://www.google.com/">This is a link to google</a>
+        <form class="blah">
+            <input id="foo" name="lel" type="text" />
+            <input id="bar" type="submit" />
+        </form>
+    </body>
+    <script type="text/javascript">
+        var all = document.getElementsByTagName("*");
+        for (var i = 0; i < all.length; ++i) {
+            var info = new Array();
+            info[0] = all[i].tagName;
+            info[1] = all[i].getAttribute("id");
+            info[2] = all[i].getAttribute("name");
+            info[3] = all[i].getAttribute("class");
+            info[4] = all[i].getAttribute("type");
+            alert(JSON.stringify(info));
+        }
+    </script>
+</html>
