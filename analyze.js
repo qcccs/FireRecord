@@ -19,8 +19,8 @@ function analyze() {
 			info[4] = all[i].getAttribute("form");
 			break;
 			case "FORM":
-			info[1] = all[i].getAttribute("name);
-			info[2] = all[i].getAttribute("length);
+			info[1] = all[i].getAttribute("name");
+			info[2] = all[i].getAttribute("length");
 			info[3] = all[i].getAttribute("target");
 			info[4] = all[i].getAttribute("action");
 			break;
