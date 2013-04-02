@@ -2,74 +2,81 @@
 <head name="headName" id="headId">
 </head>
 <script>
-var spans = document.getElementsByTagName("*");
-if (window.attachEvent) {window.attachEvent('onload', your_function);}
-else if (window.addEventListener) {window.addEventListener('load', your_function, false);}
-else {document.addEventListener('load', your_function, false);} 
-for(i=0;i<spans.length;i++)
-    spans[i].addEventListener("click", this.doSomething);
-function your_function()
-{
-alert("Done Loading!");
-}
-function doSomething(e)
-{
-var targ;
-if (!e)
-  {
-  var e=window.event;
-  }
-if (e.target)
-  {
-  targ=e.target;
-  }
-else if (e.srcElement)
-  {
-  targ=e.srcElement;
-  }
-var tname;
-var idname;
+    var spans = document.getElementsByTagName("*");
+    if (window.attachEvent) { window.attachEvent('onload', your_function); }
+    else if (window.addEventListener) { window.addEventListener('load', your_function, false); }
+    else { document.addEventListener('load', your_function, false); }
+    for (i = 0; i < spans.length; i++)
+        spans[i].addEventListener("click", this.doSomething);
+    function your_function() {
+        alert("Done Loading!");
+    }
+    function doSomething(e) {
+        var targ;
+        if (!e) {
+            var e = window.event;
+        }
+        if (e.target) {
+            targ = e.target;
+        }
+        else if (e.srcElement) {
+            targ = e.srcElement;
+        }
+        var tname;
+        var idname;
 
-idname = targ.id;
-tname = targ.tagName;
-alert("You clicked on a " + tname + " element. Named "+ idname +".");
-}
+        idname = targ.id;
+        tname = targ.tagName;
+        alert("You clicked on a " + tname + " element. Named " + idname + ".");
+    }
 </script>
 <body name="bodyName" id="bodyId">
-	<title name="titleName" id="titleId">This is the title of the document</title><br />
-	<header name="headerName" id="headerId">This is the header<br />
-		<nav name="navName" id="navId">This is the navigational menu</nav><br />
-		</header>
-	<table name="tableName" id="tableId"><br />
-		<th name="tableHeadName" id="tableHeadId">table heading</th><br />
-		<td>Table Cell</td><br />
-	</table>
-	<h1 name="headingName" id="headingId">Level 1 Heading</h1><br />
-	<a href="#" id="anchorId" name="anchorName">Anchor</a><br />
-	<object name="objectName" id="objectId">This is an object that normally holds a video but I'm too lazy to find one</object><br />
-	<menu name="menuName" id="menuId">This is a menu</menu><br />
-	<img src="http://www.natural-environment.com/images/banners/banner_7_glasshouse_mountains.jpg" name="imageName" id="imageId"><br />
-	<p name="paraName" id="paraId">This is a paragraph</p><br />
-	<q name="quoteName" id="quoteId">This is a quotation</q><br />
-	<summary name="summaryName" id="summaryId">This is a summary</summary><br />
-	<time name="timeName" id="timeId">This is a timestamp</time><br />
-	<button value="button" type="button" name="buttonName" id="buttonId">Click Me!</button> <br />
-	<hr name="horizontalRuleName" id="horizontalRuleId"><br />
-	<form name="formName" id="formId"><br />
-		<label name="labelName" id="labelId">This is a label</label><br />
-		<select>
-		  <option value="volvo" name="volvoName" id="volvoId">Volvo</option>
-		  <option value="saab" name="saabName" id="saabId">Saab</option>
-		  <option value="mercedes" name="mercedesName" id="mercedesId">Mercedes</option>
-		  <option value="audi" name="audiName" id="audiId">Audi</option>
-		</select>
-	<input type="submit" value="Submit" name="submitButton" id="submitId"><br />
-	</form>
-	<ol name="orderedListName" id="orderListId">
-		<li name="listItemName" id="listItemId">list item</li>
-	</ol>
-	<div name="divName" id="divId">div</div>
-	<iframe src="http://www.google.com" name="iframeName" id="iframeId">This is an iframe</iframe>
-	<footer name="footerName" id="footerId">This is the footer</footer>
+    <title name="titleName" id="titleId">This is the title of the document</title>
+    <br />
+    <header name="headerName" id="headerId">
+        This is the header<br />
+        <nav name="navName" id="navId">This is the navigational menu</nav>
+        <br />
+    </header>
+    <table name="tableName" id="tableId">
+        <br />
+        <th name="tableHeadName" id="tableHeadId">table heading</th>
+        <br />
+        <td>Table Cell</td>
+        <br />
+    </table>
+    <h1 name="headingName" id="headingId">Level 1 Heading</h1>
+    <br />
+    <a href="#" id="anchorId" name="anchorName">Anchor</a><br />
+    <object name="objectName" id="objectId">This is an object that normally holds a video but I'm too lazy to find one</object><br />
+    <menu name="menuName" id="menuId">This is a menu</menu>
+    <br />
+    <img src="http://www.natural-environment.com/images/banners/banner_7_glasshouse_mountains.jpg" name="imageName" id="imageId"><br />
+    <p name="paraName" id="paraId">This is a paragraph</p>
+    <br />
+    <q name="quoteName" id="quoteId">This is a quotation</q><br />
+    <summary name="summaryName" id="summaryId">This is a summary</summary><br />
+    <time name="timeName" id="timeId">This is a timestamp</time><br />
+    <button value="button" type="button" name="buttonName" id="buttonId">Click Me!</button>
+    <br />
+    <hr name="horizontalRuleName" id="horizontalRuleId">
+    <br />
+    <form name="formName" id="formId">
+        <br />
+        <label name="labelName" id="labelId">This is a label</label><br />
+        <select>
+            <option value="volvo" name="volvoName" id="volvoId">Volvo</option>
+            <option value="saab" name="saabName" id="saabId">Saab</option>
+            <option value="mercedes" name="mercedesName" id="mercedesId">Mercedes</option>
+            <option value="audi" name="audiName" id="audiId">Audi</option>
+        </select>
+        <input type="submit" value="Submit" name="submitButton" id="submitId"><br />
+    </form>
+    <ol name="orderedListName" id="orderListId">
+        <li name="listItemName" id="listItemId">list item</li>
+    </ol>
+    <div name="divName" id="divId">div</div>
+    <iframe src="http://www.google.com" name="iframeName" id="iframeId">This is an iframe</iframe>
+    <footer name="footerName" id="footerId">This is the footer</footer>
 </body>
 </html>
