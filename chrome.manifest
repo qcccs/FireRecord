@@ -1,3 +1,8 @@
-content firerecord chrome/content/
-skin    firerecord classic/1.0 chrome/skin/classic/
-overlay chrome://firebug/content/firebugOverlay.xul chrome://firerecord/content/firerecord.xul
+content     firerecord    chrome/content/
+content     firerecord    chrome/content/ contentaccessible=yes
+overlay chrome://browser/content/browser.xul chrome://firerecord/content/browserx.xul
+
+locale	firerecord	en-US	locale/en-US/
+
+skin	firerecord	classic/1.0	skin/
+style	chrome://global/content/customizeToolbar.xul	chrome://firerecord/skin/skin.css

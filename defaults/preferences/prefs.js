@@ -1,1 +1,1 @@
-pref("extensions.firebug.DBG_FIRERECORD", true);
+pref("extensions.firerecord.autorun", true);

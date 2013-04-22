@@ -1,25 +1,23 @@
 <?xml version="1.0"?>
-<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
-    <Description about="urn:mozilla:install-manifest">
-        <em:id>firerecord@qcc.mass.edu</em:id>
-        <em:version>0.0.2</em:version>
+	<Description about="urn:mozilla:install-manifest">
+		<em:id>csc207qc@gmail.com</em:id>
+		<em:name>Fire Record</em:name>
+		<em:version>.8</em:version>
+		<em:type>2</em:type>
+		<em:creator>Quinsigamond Community College CS207</em:creator>
+		<em:description>Records Browsing</em:description>
+		<em:homepageURL>http://www.qcc.edu/</em:homepageURL>
+		<em:optionsURL>chrome://firerecord/content/options.xul</em:optionsURL>
 
-        <!-- Firefox -->
-        <em:targetApplication>
-            <Description>
-                <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-                <em:minVersion>1.5</em:minVersion>
-                <em:maxVersion>18.*</em:maxVersion>
-            </Description>
-        </em:targetApplication>
-
-        <!-- Extension -->
-        <em:name>FireRecord</em:name>
-        <em:description>Firebug Record Extension</em:description>
-        <em:creator>Quinsigamond Community College CSC 207</em:creator>
-        <em:homepageURL>http://qcccs.github.com/</em:homepageURL>
-    </Description>
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>4.0</em:minVersion>
+				<em:maxVersion>20.0.1</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+	</Description>      
 </RDF>
-
-
