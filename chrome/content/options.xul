@@ -1,31 +1,31 @@
 <?xml version="1.0"?>
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
- 
-<prefwindow 
+
+<prefwindow
      title="FireRecord Preferences"
      xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
- 
-	<prefpane label="FireRecord Preferences">
-		<preferences>
-			<preference id="link-target-finder-autorun" name="extensions.firerecord.autorun" type="bool"/>
-		</preferences>
-		
-		<groupbox>
-			<caption label="Settings"/>
-			<grid>
-				<columns>
-					<column flex="4"/>
-					<column flex="1"/>
-				</columns>
-				<rows>
-					<row>
-						<label control="autorun" value="Autorun"/>
-						<checkbox id="autorun" preference="link-target-finder-autorun"/>
-					</row>
-				</rows>
-			</grid>
-		</groupbox>	
-		
-	</prefpane>
- 
+
+    <prefpane label="FireRecord Preferences">
+        <preferences>
+            <preference id="link-target-finder-autorun" name="extensions.firerecord.autorun" type="bool"/>
+        </preferences>
+
+        <groupbox>
+            <caption label="Settings"/>
+            <grid>
+                <columns>
+                    <column flex="4"/>
+                    <column flex="1"/>
+                </columns>
+                <rows>
+                    <row>
+                        <label control="autorun" value="Autorun"/>
+                        <checkbox id="autorun" preference="link-target-finder-autorun"/>
+                    </row>
+                </rows>
+            </grid>
+        </groupbox>
+
+    </prefpane>
+
 </prefwindow>

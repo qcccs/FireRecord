@@ -1,12 +1,12 @@
 ﻿#link-target-finder-toolbar-button {
-	list-style-image: url("chrome://firerecord/skin/toolbar-large.png");
+    list-style-image: url("chrome://firerecord/skin/toolbar-large.png");
 }
 
 #link-target-finder-status-bar-icon {
-	width: 83px;
-	margin: 0 5px;
+    width: 83px;
+    margin: 0 5px;
 }
 
 .link-target-finder-selected {
-	outline: 2px solid CadetBlue !important;
+    outline: 2px solid CadetBlue !important;
 }
