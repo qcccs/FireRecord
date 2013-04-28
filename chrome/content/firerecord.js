@@ -19,6 +19,8 @@ var firerecord = function () {
                 appcontent.addEventListener("DOMContentLoaded", firerecord.run, true);
                 }
         },
+        
+        //Rylan
 		running: function (){
 			if(recordingx){
 	    		recordingx = false;
@@ -35,7 +37,17 @@ var firerecord = function () {
 	    	}
 			
 		},
-		file: function(){
+		openfile: function(){
+			
+			path = io.openPath();
+			
+		},
+		newfile: function(){
+			path = io.newPath();
+			createFile();
+		},
+		//rylan
+		/*file: function(){
 			const nsIFilePicker = Components.interfaces.nsIFilePicker;
 
 			var fp = Components.classes["@mozilla.org/filepicker;1"]
@@ -52,7 +64,9 @@ var firerecord = function () {
 			  // work with returned nsILocalFile...
 			  
 			}
-		},
+		},*/
+		
+		//rylan
 		checkpage: function(readloc){
 			page = window.content.location.href;
 			if (page != readloc){
@@ -61,6 +75,7 @@ var firerecord = function () {
 				}
 		},
 		
+		//rylan
 		readr: function(){
 			var a= "http://rt.com/news/";
 			var b= "A";
@@ -73,6 +88,7 @@ var firerecord = function () {
 			//setTimeout(function(){firerecord.fireExp();},8000);
 		},
 		
+		//rylan
 		nullCheck: function(elem){
 			if(!elem.href){
             	elem.href = "null";
@@ -121,7 +137,11 @@ var firerecord = function () {
         	}
         	
 			return elem;		
-		},/*
+		},
+		
+		/*
+		
+		//rylan
 		fireExp: function(){
 			var all = content.document.getElementsByTagName("A");
 			for (var i = 0; i < all.length; ++i) {
@@ -133,6 +153,8 @@ var firerecord = function () {
 				}
 			}
 		},*/
+		
+		//rylan
 		fire: function(b,c,d,e,f){
 			
 			
@@ -233,6 +255,8 @@ var firerecord = function () {
 			}
 			
 		},
+		
+		
         run : function () {
         		
             var head = content.document.getElementsByTagName("head")[0],
@@ -272,7 +296,7 @@ var firerecord = function () {
                     case "INPUT":
                      
                         elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleType, false);
+                        elm.addEventListener("keyup", handleType, false);
                         break;
                     case "A":
                        
@@ -316,8 +340,7 @@ var firerecord = function () {
                         elm.addEventListener("click", handleEvent, false);
                         break;
                     case "TABLE":
-                        info[1] = all[i].getAttribute("summmary");
-                        info[2] = all[i].getAttribute("caption");
+                        
                         elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
                         elm.addEventListener("click", handleEvent, false);
                         break;
@@ -339,8 +362,7 @@ var firerecord = function () {
 
     };
 
-    //Need to add author to this part...
-  //Need to add author to this part...
+   //rylan
     function handleEvent(e) {
         var targ;
         if (!e) {
@@ -392,12 +414,12 @@ var firerecord = function () {
                 taginfo[2] = targ.src;
                 
                 break;
-            case "INPUT":
+            /*case "INPUT":
                 taginfo[1] = targ.name;
                 taginfo[2] = targ.type;
                 taginfo[3] = targ.value;
                 
-                break;
+                break;*/
             case "LINK":
                 taginfo[1] = targ.href;
                 taginfo[2] = targ.type;
@@ -459,18 +481,18 @@ var firerecord = function () {
         
 		var contents = taginfo.join(' :: ')+"\n";
 		
-        appendFile(window.content.location.href+"\n");
-		appendFile(contents);
+        io.appendPath(path, window.content.location.href+"\n");
+		io.appendPath(path, contents);
         
         e.cancelBubble = true;
     };
 
 }();
-function createFile(contents) {
+function createFile() {
 	
 	alert("created File");
 	var file1 = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
-	file1.initWithPath("C:\\test\\" + "test.txt"); 
+	file1.initWithPath(path); 
 	//alert("create file nullcheck" +file1.toString());
 	var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);
 	// use 0x02 | 0x10 to open file for appending.
@@ -478,7 +500,7 @@ function createFile(contents) {
 	var converter = Components.classes["@mozilla.org/intl/converter-output-stream;1"].
 					createInstance(Components.interfaces.nsIConverterOutputStream);
 	converter.init(foStream, "UTF-8", 0, 0);
-	converter.writeString(contents.toString());
+	
 	converter.close(); // this closes foStream
 }
 
