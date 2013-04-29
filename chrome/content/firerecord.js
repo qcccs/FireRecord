@@ -81,7 +81,7 @@ var firerecord = function() {
 			{
 			line1 = playThis[i];
 			line2  = playThis[i+1].split(' :: ');
-			}
+			
 			//alert(line1.toString());
 			//alert(line2.toString());
 			setTimeout(function() {
@@ -91,7 +91,7 @@ var firerecord = function() {
 				firerecord.fire(line2[0], line2[1], line2[2], line2[3], line2[4]);
 			}, 8000);
 			// setTimeout(function(){firerecord.fireExp();},8000);
-			
+		}
 		},
 			
 		// rylan
