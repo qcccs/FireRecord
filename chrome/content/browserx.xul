@@ -1,36 +1,35 @@
 <?xml version="1.0"?>
-<?xml-stylesheet href="chrome://linktargetfinder/skin/skin.css" type="text/css"?> 
+<?xml-stylesheet href="chrome://linktargetfinder/skin/skin.css" type="text/css"?>
 <!DOCTYPE firerecord SYSTEM "chrome://firerecord/locale/translations.dtd">
 <overlay id="sample" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script src="fireio.js" type="text/javascript"/> 
-	<script src="firerecord.js" type="text/javascript"/> 
-	<menupopup id="menu_ToolsPopup"> 
-		<menuitem label="&runlinktargetfinder;" key="link-target-finder-run-key" oncommand="firerecord.running()"/> 
-	</menupopup>
-	<toolbox>
-		<menubar id="xulschoolhello-menubar">
-			<menu id="xulschoolhello-greeting-menu" label="File Options">
-				<menupopup>
-					<menuitem label="Open File" 
-							oncommand ="firerecord.openfile()"/>
-					<menuitem label="New File" 
-							oncommand ="firerecord.newfile()"/>
-					<menuitem label="Run File" 
-							oncommand ="firerecord.readr()"/>
-				</menupopup>
-			</menu>
-		</menubar>
-	</toolbox> 
-	<keyset>
-		<key id="link-target-finder-run-key" modifiers="accel alt shift" key="L" oncommand="firerecord.running()"/>
-	</keyset>
-	<toolbar id="status-bar">
-		<statusbarpanel id="link-target-finder-status-bar-icon"  label="Record" class="statusbarpanel-iconic" 
-				src="chrome://firerecord/skin/record.png" tooltiptext="Click to start recording to currently loaded script" 
-				onclick="firerecord.running()" />
-	</toolbar>
-	<toolbar id="status-bar">
-		<statusbarpanel id="Play" type="menu" role="button"  label="Play" class="statusbarpanel-iconic" 
-				src="chrome://firerecord/skin/play.png" tooltiptext="Click to playback currently loaded script" onclick="firerecord.readr()" />
-	</toolbar>
+    <script src="fireio.js" type="text/javascript"/>
+	<script src="fireplay.js" type="text/javascript"/>
+    <script src="firerecord.js" type="text/javascript"/>
+    <menupopup id="menu_ToolsPopup">
+        <menuitem label="&runlinktargetfinder;" key="link-target-finder-run-key" oncommand="firerecord.running()"/>
+    </menupopup>
+    <toolbox>
+        <menubar id="xulschoolhello-menubar">
+
+        </menubar>
+    </toolbox>
+    <keyset>
+        <key id="link-target-finder-run-key" modifiers="accel alt shift" key="L" oncommand="firerecord.running()"/>
+    </keyset>
+    <toolbar id="status-bar">
+	            <menu id="xulschoolhello-greeting-menu" label="File Options">
+                <menupopup>
+                    <menuitem label="Open File"
+                            oncommand ="firerecord.openfile()"/>
+                    <menuitem label="New File"
+                            oncommand ="firerecord.newfile()"/>
+                </menupopup>
+            </menu>
+        <statusbarpanel id="link-target-finder-status-bar-icon"  label="Record" class="statusbarpanel-iconic"
+                src="chrome://firerecord/skin/record.png" tooltiptext="Click to start recording to currently loaded script"
+                onclick="firerecord.running()" />
+
+        <statusbarpanel id="Play" type="menu" role="button"  label="Play" class="statusbarpanel-iconic"
+                src="chrome://firerecord/skin/play.png" tooltiptext="Click to playback currently loaded script" onclick="firerecord.playback()" />
+    </toolbar>
 </overlay>
