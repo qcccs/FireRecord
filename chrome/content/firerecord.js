@@ -38,12 +38,9 @@ var firerecord = function() {
 				// createFile("Initialize New Test File");
 				firerecord.run();
 			}
-
 		},
 		openfile : function() {
-
 			path = io.openPath();
-
 		},
 		newfile : function() {
 			path = io.newPath();
@@ -75,31 +72,28 @@ var firerecord = function() {
 			}
 		},
 
-		// rylan
-		readr : function() {
-			var a = "http://rt.com/news/";
-			var b = "A";
-			var c = "http://rt.com/news/ukraine-tymoshenko-pardon-request-508/";
-			var d = "null";
-			var e = "null";
-			var f = "null";
+		// rylan and David
+		playback : function() {
+		var playThis = io.getLine(path);
+		var line1 = new Array();
+		var line2 = new Array();
+			for(var i = 0; i < playThis.length; i+=2)
+			{
+			line1 = playThis[i];
+			line2  = playThis[i+1].split(' :: ');
+			}
+			//alert(line1.toString());
+			//alert(line2.toString());
 			setTimeout(function() {
-				firerecord.checkpage(a);
+				firerecord.checkpage(line1);
 			}, 5000);
 			setTimeout(function() {
-				firerecord.fire(b, c, d, e, f);
+				firerecord.fire(line2[0], line2[1], line2[2], line2[3], line2[4]);
 			}, 8000);
 			// setTimeout(function(){firerecord.fireExp();},8000);
+			
 		},
-		// David
-		playback : function() {
-			var playThis = io.getLine(path);
-			for(var i = 0; i < playThis.length; i++)
-			{
-				alert(playThis[i]);
-			}
-		},
-
+			
 		// rylan
 		nullCheck : function(elem) {
 			if (!elem.href) {
@@ -272,8 +266,7 @@ var firerecord = function() {
 			}
 
 			// Find all elements attributes and add a listener
-			// -----------------------------------------------------------
-			// Add author(s) to this section. Who did this? David and Peter?
+			//David, Peter
 			for ( var i = 0; i < all.length; ++i) {
 				// Define the classname variable
 				elm = all[i];
@@ -340,7 +333,6 @@ var firerecord = function() {
 						elm.addEventListener("click", handleEvent, false);
 						break;
 					case "SELECT":
-
 						elm.className += ((elm.className.length > 0) ? " " : "")
 								+ "link-target-finder-selected";
 						elm.addEventListener("click", handleEvent, false);
@@ -378,11 +370,6 @@ var firerecord = function() {
 		} else if (e.srcElement) {
 			targ = e.srcElement;
 		}
-
-		// ---------------------------------------------------------------------
-
-		// _____________________________________________________________________
-
 		var taginfo = new Array();
 
 		taginfo[0] = targ.tagName;
@@ -390,7 +377,6 @@ var firerecord = function() {
 		// Feel free to change this to a for each...
 		switch (taginfo[0]) {
 		// All of these cases need null checks for each attribute.
-
 		case "A":
 			taginfo[1] = targ.href;
 
@@ -447,11 +433,9 @@ var firerecord = function() {
 			taginfo[1] = targ.name;
 			taginfo[2] = targ.type;
 			taginfo[3] = targ.value;
-
+			
 			break;
-
 		}
-
 		if (!taginfo[1]) {
 			taginfo[1] = "null";
 		}
@@ -464,19 +448,15 @@ var firerecord = function() {
 		if (!taginfo[4]) {
 			taginfo[4] = "null";
 		}
-
 		/*
 		 * var positionFind = content.document.getElementsByTagName(taginfo[0]);
 		 * for (var i = 0; i < positionFind.length; ++i) { if (targ =
 		 * positionFind[i]){ taginfo[5] = i;
 		 *  } } alert(taginfo[5]);
 		 */
-
 		var contents = taginfo.join(' :: ') + "\n";
-
 		io.appendPath(path, window.content.location.href + "\n");
 		io.appendPath(path, contents);
-
 		e.cancelBubble = true;
 	}
 	;
