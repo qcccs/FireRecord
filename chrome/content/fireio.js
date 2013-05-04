@@ -29,7 +29,7 @@ var io = {
 	@see <a href="https://developer.mozilla.org/en-US/docs/Code_snippets/File_I_O"> Mozilla Developer Network Example </a>
 	*/
     appendPath: function (path, contents) {
-        alert("appended File");
+        
         var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
         file.initWithPath(path);
         // alert("append file nullcheck: "+file1.toString());
@@ -67,7 +67,7 @@ var io = {
 	@see <a href="https://developer.mozilla.org/en-US/docs/Code_snippets/File_I_O"> Mozilla Developer Network Example </a>
 	*/
     createFile: function (path) {
-        alert("created File");
+        
         var file = Components.classes["@mozilla.org/file/local;1"].createInstance(Components.interfaces.nsILocalFile);
         file.initWithPath(path);
         var foStream = Components.classes["@mozilla.org/network/file-output-stream;1"].createInstance(Components.interfaces.nsIFileOutputStream);

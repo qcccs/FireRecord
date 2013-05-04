@@ -1,430 +1,326 @@
 /*
-@author Ian Hickey, Rylan Doherty, David Westgate, Peter Atashian
+@author Ian Hickey, Rylan Doherty, David Westgate, William Jellesma, Peter Atashian
 @fileOverview The event listener, event handler, script writer, and script executer functions of firerecord
 
 
 */
-var recordingx = false;
+var recording2 = false;
 var path = null;
-var loadx = null;
 var page = null;
+var i = 0;
+var line1 = new Array();
+var line2 = new Array();
+var playThis;
 window.addEventListener("load", function load(event) {
-    window.removeEventListener("load", load, false); // remove listener, no
-    // longer needed
+    window.removeEventListener("load", load, false);
     firerecord.init();
 }, false);
+
 var firerecord = function () {
-    var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
+    var prefManager = Components.classes["@mozilla.org/preferences-service;1"]
+    .getService(Components.interfaces.nsIPrefBranch);
     return {
-        init: function () {
-            getBrowser().addEventListener("load", function () {
-                alert("loaded");
-            });
-            var appcontent = document.getElementById("appcontent"); // browser
-            if (appcontent) {
-                appcontent.addEventListener("DOMContentLoaded", firerecord.run, true);
-            }
-        },
-        /* @author rylan
-		*/
-        running: function () {
-            if (recordingx) {
-                recordingx = false;
-                alert("Stop Listen");
-                openUILinkIn(window.content.location.href, "current");
-            } else {
-                recordingx = true;
-                alert("Start Listen");
-                firerecord.run();
-            }
-        },
-        openfile: function () {
-            path = io.openPath();
-        },
-        newfile: function () {
-            path = io.newPath();
-            io.createFile(path);
-        },
+    		init : function() {
+			var appcontent = document.getElementById("appcontent"); // browser
+			if (appcontent) {
+				appcontent.addEventListener("DOMContentLoaded", firerecord.run,
+						true);
+			}
+		},
         /* 
-		@author rylan
+        @author Rylan
 		*/
-        checkpage: function (readloc) {
-            page = window.content.location.href;
-            if (page != readloc) {
-                openUILinkIn(readloc, "current");
-            }
-        },
+        running : function() {
+			if (recording2) {
+				recording2 = false;
+				alert("Stop Listen");
+				openUILinkIn(window.content.location.href, "current");
+			} else {
+				recording2 = true;
+				alert("Start Listen");
+				firerecord.run();
+			}
+		},
+		openfile : function() {
+			path = io.openPath();
+		},
+		newfile : function() {
+			path = io.newPath();
+			io.createFile(path);
+		},
+        
         /* 
-		@author rylan, David
+		@author Rylan
 		*/
-        playback: function () {
-            var wait = true;
-            var playThis = io.getScript(path);
-            var line1 = new Array();
-            var line2 = new Array();
-            for (var i = 0; i < playThis.length; i += 2) {
-                line1 = playThis[i];
-                line2 = playThis[i + 1].split(' :: ');
-                while (true) {
-                    if (document.readyState == "complete") {
-                        firerecord.checkpage(line1);
-                        break;
-                    }
-                }
-
-                setTimeout(function () {
-                    this.wait = false
-                }, 1000);
-                while (true) {
-					alert(wait);
-					if(wait == false)
-						break;
-				
-				}
+        checkpage : function() {
+			page = window.content.location.href;
+			if (page != line1) 
+				openUILinkIn(line1, "current");
 			
-                wait = true;
-                while (true) {
-                    if (document.readyState == "complete") {
-                        firerecord.fire(line2[0], line2[1], line2[2], line2[3], line2[4]);
-                        break;
-                    }
-                }
-				
-                setTimeout(function () {
-                    wait = false;
-                }, 1000);
-                while (true) {
-					if(wait == false)
+				setTimeout(function(){
+					firerecord.fire();
+				},5000);
+		},
+        
+        /* 
+		@author Rylan, David
+		*/
+        playback : function() {
+			i = 0;
+			playThis = io.getScript(path);
+			line1 = playThis[0];
+			line2  = playThis[0+1].split(' :: ');
+			firerecord.checkpage();
+		},
+		
+        /* 
+		@author Rylan
+		*/
+        fire : function() {
+        	if (line2[0]=="key"){
+        		var obj = document.createEvent("KeyboardEvent");
+				obj.initKeyEvent('keydown', true, true, window, false, false, false, false, 8, 0);
+				document.dispatchEvent(obj);
+        	}
+        	else{
+        	var all = content.document.getElementsByTagName(line2[1]);
+			for ( var n = 0; n < all.length; n++) {
+				var elem = all[n];
+				var searchCount = 0;
+				if(line2[0]=="click")
+					searchCount = 2;
+				else if(line2[0]=="type")
+					searchCount = 3;
+				var finding = false;
+				while(searchCount<line2.length ){
+					if(elem[line2[searchCount]]==line2[searchCount+1])
+						{
+						finding = true;
+						searchCount+=2;
+						}
+					else{
+						finding = false;
 						break;
+					}
 				}
-                wait = true;
-            }
-            
-        },
-        /* 
-		@author rylan
-		*/
-        nullCheck: function (elem) {
-            if (!elem.href) {
-                elem.href = "null";
-            }
-            if (!elem.name) {
-                elem.name = "null";
-            }
-            if (!elem.type) {
-                elem.type = "null";
-            }
-            if (!elem.value) {
-                elem.value = "null";
-            }
-            if (!elem.form) {
-                elem.form = "null";
-            }
-            if (!elem.length) {
-                elem.length = "null";
-            }
-            if (!elem.target) {
-                elem.target = "null";
-            }
-            if (!elem.action) {
-                elem.action = "null";
-            }
-            if (!elem.src) {
-                elem.src = "null";
-            }
-            if (!elem.charset) {
-                elem.charset = "null";
-            }
-            if (!elem.text) {
-                elem.text = "null";
-            }
-            if (!elem.index) {
-                elem.index = "null";
-            }
-            if (!elem.size) {
-                elem.size = "null";
-            }
-            if (!elem.summary) {
-                elem.summary = "null";
-            }
-            if (!elem.caption) {
-                elem.caption = "null";
-            }
-            return elem;
-        },
-
-        /* 
-		@author rylan
-		*/
-        fire: function (b, c, d, e, f) {
-            var all = content.document.getElementsByTagName(b);
-            for (var i = 0; i < all.length; ++i) {
-                var elem = all[i];
-                elem = firerecord.nullCheck(elem);
-                switch (elem.tagName) {
-                    // All of these cases need null checks for each attribute.
-                case "A":
-                    if (elem.href == c) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "BUTTON":
-                    if (elem.name == c && elem.type == d && elem.value == e && elem.form == f) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "FORM":
-                    if (elem.name == c && elem.length == d && elem.target == e && elem.action == f) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "IMG":
-                    if (elem.name == c && elem.src == d) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "INPUT":
-                    if (elem.name == c && elem.type == d && elem.value == e) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "LINK":
-                    if (elem.href == c && elem.type == d && elem.charset == e) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "OPTION":
-                    if (elem.text == c && elem.value == d && elem.index == e) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "SELECT":
-                    if (elem.type == c && elem.name == d && elem.size == e) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "TABLE":
-                    if (elem.summary == c && elem.caption == d) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                case "TEXTAREA":
-                    if (elem.name == c && elem.type == d && elem.value == e) {
-                        var obj = document.createEvent("MouseEvents");
-                        obj.initEvent("click", true, true);
-                        elem.dispatchEvent(obj);
-                    }
-                    break;
-                }
-            }
-        },
+				if (finding == true)
+					break;
+			}	
+			if (finding == false){
+				alert("Matching Element Not Found!");
+			}
+			else if(line2[0]=="click"){
+				var obj = document.createEvent("MouseEvents");
+				obj.initEvent("click", true, true);
+				elem.dispatchEvent(obj);
+			}
+			else if(line2[0]=="type")
+				elem.value = line2[2];
+			i+=2
+			if(i<playThis.length){
+				line1 = playThis[i];
+				line2  = playThis[i+1].split(' :: ');
+				setTimeout(function(){
+					firerecord.checkpage()
+				},5000);
+			}
+        	}
+		},
 		/*
-		@author David, Peter, rylan, Ian
-			
+		@author David, Peter, Rylan, Ian
 		@description Find all elements attributes and add a listener
         */
-        run: function () {
-            var head = content.document.getElementsByTagName("head")[0],
-                style = content.document.getElementById("link-target-finder-style"),
-                all = content.document.getElementsByTagName("*"),
-                foundElements = 0;
-            var info = new Array(); // Made this global
-            var Recording = true; // Just need this until we finish with the
-            // the buttons.
-            if (!style) {
-                style = content.document.createElement("link");
-                style.id = "link-target-finder-style";
-                style.type = "text/css";
-                style.rel = "stylesheet";
-                style.href = "chrome://firerecord/skin/skin.css";
-                head.appendChild(style);
-            }
-
-            for (var i = 0; i < all.length; ++i) {
-                // Define the classname variable
-                elm = all[i];
-                // deleted local call to new array info
-                var validtags = ["A", "BUTTON", "FORM", "IMG", "INPUT", "LINK", "OPTION", "SELECT", "TABLE", "TEXTAREA"];
-                // Add a click event listener to all the valid tags.
-                if (validtags.indexOf(all[i].tagName) < 0) continue;
-                info[0] = all[i].tagName;
-                // Feel free to change this to a for each...
-                if (recordingx) {
-                    switch (info[0]) {
-                        // All of these cases need null checks for each attribute.
-                    case "INPUT":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("keyup", handleType, false);
-                        break;
-                    case "A":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "BUTTON":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "FORM":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "IMG":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                        /*
-                         * case "INPUT":
-                         * 
-                         * elm.className += ((elm.className.length > 0) ? " " : "") +
-                         * "link-target-finder-selected";
-                         * elm.addEventListener("click", handleEvent, false); break;
-                         */
-                    case "LINK":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "OPTION":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "SELECT":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "TABLE":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    case "TEXTAREA":
-                        elm.className += ((elm.className.length > 0) ? " " : "") + "link-target-finder-selected";
-                        elm.addEventListener("click", handleEvent, false);
-                        break;
-                    }
-                }
-            }
-         
-        }
+        run : function() {
+        	
+			var head = content.document.getElementsByTagName("head")[0], style = content.document
+					.getElementById("link-target-finder-style"), all = content.document
+					.getElementsByTagName("*"), foundElements = 0;
+			var Recording = true;
+			var info = new Array();
+			if (!style) {
+				style = content.document.createElement("link");
+				style.id = "link-target-finder-style";
+				style.type = "text/css";
+				style.rel = "stylesheet";
+				style.href = "chrome://firerecord/skin/skin.css";
+				head.appendChild(style);
+			}
+			
+			if (recording2) {
+				window.content.addEventListener("keyup", handleKey, false);
+			for ( var i = 0; i < all.length; ++i) {
+				elm = all[i];
+				var validtags = [ "A", "BUTTON", "FORM", "IMG", "INPUT",
+						"LINK", "OPTION", "SELECT", "TABLE", "TEXTAREA" ];
+				info[0] = all[i].tagName;
+				if (validtags.indexOf(info[0]) == -1)
+					continue;
+				else{
+					if ( (elm.type == "text"||elm.type =="password") && info[0] == "INPUT"){
+						elm.className += ((elm.className.length > 0) ? " " : "")
+						+ "link-target-finder-selected";
+						elm.addEventListener("change", handleType, false);
+					}
+					else{
+						elm.className += ((elm.className.length > 0) ? " " : "")
+						+ "link-target-finder-selected";
+						elm.addEventListener("click", handleEvent, false);
+					}
+					}
+				}
+			}
+		}
     };
+    
     /* 
-	@author rylan
-	@description handles events
+	@author Rylan
+	@description handles click events
 	*/
     function handleEvent(e) {
-        var targ;
-        if (!e) {
-            var e = window.event;
-        }
-        if (e.target) {
-            targ = e.target;
-        } else if (e.srcElement) {
-            targ = e.srcElement;
-        }
-        var taginfo = new Array();
-        taginfo[0] = targ.tagName;
-        var countr;
-        // Feel free to change this to a for each...
-        switch (taginfo[0]) {
-            // All of these cases need null checks for each attribute.
-        case "A":
-            taginfo[1] = targ.href;
-            break;
-        case "BUTTON":
-            taginfo[1] = targ.name;
-            taginfo[2] = targ.type;
-            taginfo[3] = targ.value;
-            taginfo[4] = targ.form;
-            break;
-        case "FORM":
-            taginfo[1] = targ.name;
-            taginfo[2] = targ.length;
-            taginfo[3] = targ.target;
-            taginfo[4] = targ.action;
-            break;
-        case "IMG":
-            taginfo[1] = targ.name;
-            taginfo[2] = targ.src;
-            break;
-            /*
-             * case "INPUT": taginfo[1] = targ.name; taginfo[2] = targ.type;
-             * taginfo[3] = targ.value;
-             * 
-             * break;
-             */
-        case "LINK":
-            taginfo[1] = targ.href;
-            taginfo[2] = targ.type;
-            taginfo[3] = targ.charset;
-            break;
-        case "OPTION":
-            taginfo[1] = targ.text;
-            taginfo[2] = targ.value;
-            taginfo[3] = targ.index;
-            break;
-        case "SELECT":
-            taginfo[1] = targ.type;
-            taginfo[2] = targ.name;
-            taginfo[3] = targ.size;
-            break;
-        case "TABLE":
-            taginfo[1] = targ.summary;
-            taginfo[2] = targ.caption;
-            break;
-        case "TEXTAREA":
-            taginfo[1] = targ.name;
-            taginfo[2] = targ.type;
-            taginfo[3] = targ.value;
-            break;
-        }
-        if (!taginfo[1]) {
-            taginfo[1] = "null";
-        }
-        if (!taginfo[2]) {
-            taginfo[2] = "null";
-        }
-        if (!taginfo[3]) {
-            taginfo[3] = "null";
-        }
-        if (!taginfo[4]) {
-            taginfo[4] = "null";
-        }
-        var contents = taginfo.join(' :: ') + "\n";
-        io.appendPath(path, window.content.location.href + "\n");
-        io.appendPath(path, contents);
-        e.cancelBubble = true;
-    };
-}();
+		var targ;
+		if (!e) {
+			var e = window.event;
+		}
+		if (e.target) {
+			targ = e.target;
+		} else if (e.srcElement) {
+			targ = e.srcElement;
+		}
+		var eleArray= ["href","name","id","type","value","form","length",
+		              "target","action","src","charset","text","index",
+		              "caption","size","summary"];
+		var validtags = [ "A", "BUTTON", "FORM", "IMG", "INPUT",
+							"LINK", "OPTION", "SELECT", "TABLE", "TEXTAREA" ];
+		var toWrite = new Array();
+		toWrite[0] = "click";
+		toWrite[1] = targ.tagName;
+		var countWrite = 2;
+		var eleCount = 0;
+		var eleHolder;
+		if (validtags.indexOf(toWrite[1]) == -1)
+		{
+			
+		}
+		else{
+			while(eleCount<eleArray.length)
+				{
+				
+			eleHolder = targ[eleArray[eleCount]];
+			if(eleHolder){
+				toWrite[countWrite] = eleArray[eleCount];
+				countWrite+=1;
+				toWrite[countWrite] = eleHolder;
+				countWrite+=1;
+			}
+			eleCount += 1;
+				}
+			
+			var contents = toWrite.join(' :: ') + "\n";
+			io.appendPath(path, window.content.location.href + "\n");
+			io.appendPath(path, contents);
+			e.cancelBubble = true;
+			toWrite=[];
+		}
+		
+		
+	}
+
+
+}(); 
 /*
-@author Ian
-@description handles types
+@author Ian, Rylan
+@description handles typing
 */
 function handleType(e) {
-    var targ;
-    if (!e) {
-        var e = window.event;
-    }
-    if (e.target) {
-        targ = e.target;
-    } else if (e.srcElement) {
-        targ = e.srcElement;
-    }
-    alert("Type Changed");
-    e.cancelBubble = true;
+	var targ;
+	if (!e) {
+		var e = window.event;
+	}
+	if (e.target) {
+		targ = e.target;
+	} else if (e.srcElement) {
+		targ = e.srcElement;
+	}
+	var eleArray= ["href","name","id","type","form","length",
+		              "target","action","src","charset","text","index",
+		              "caption","size","summary"];
+	var validtags = [ "A", "BUTTON", "FORM", "IMG", "INPUT",
+							"LINK", "OPTION", "SELECT", "TABLE", "TEXTAREA" ];
+	var toWrite = new Array();
+	toWrite[0] = "type";
+	toWrite[1] = targ.tagName;
+	toWrite[2] = targ.value;
+	var countWrite = 3;
+	var eleCount = 0;
+	var eleHolder;
+	if (validtags.indexOf(toWrite[1]) == -1)
+	{
+		
+	}
+	else{
+		while(eleCount<eleArray.length)
+			{
+		eleHolder = targ[eleArray[eleCount]];
+		if(eleHolder){
+			toWrite[countWrite] = eleArray[eleCount];
+			countWrite+=1;
+			toWrite[countWrite] = eleHolder;
+			countWrite+=1;
+		}
+		eleCount += 1;
+			}
+		if(targ.value){
+		var contents = toWrite.join(' :: ') + "\n";
+		io.appendPath(path, window.content.location.href + "\n");
+		io.appendPath(path, contents);
+		e.cancelBubble = true;
+		toWrite=[];
+		}
+	}
+}
+/*
+@author Rylan
+@description handles key events
+*/
+function handleKey(e){
+	
+	if (!e) {
+		var e = window.event;
+	}
+	if (e.target) {
+		targ = e.target;
+	} else if (e.srcElement) {
+		targ = e.srcElement;
+	}
+	var validkeys = [13,9,32,27,8];
+	var keyHit = e? e.which: window.event.keyCode;
+	if (validkeys.indexOf(keyHit) == -1)
+	{
+		
+	}
+	else{
+		
+		var toWrite = new Array();
+		toWrite[0] = "key";
+		
+	if(keyHit == 13){
+		toWrite[1] = "enter";
+	}
+	else if(keyHit == 9){
+		toWrite[1] = "tab";
+	}
+	else if(keyHit == 32){
+		toWrite[1] = "space";
+	}
+	else if(keyHit === 27){
+		toWrite[1] = "esc";
+		
+	}
+	else if(keyHit == 8){
+		toWrite[1] = "backspace";
+	}
+	var contents = toWrite.join(' :: ') + "\n";
+	io.appendPath(path, window.content.location.href + "\n");
+	io.appendPath(path, contents);
+}
 }
